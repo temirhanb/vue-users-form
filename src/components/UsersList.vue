@@ -81,8 +81,15 @@ const handlerTest = (item: TUser, text: string, input: string) => {
       <div class="m-2 flex flex-col shadow">
         <div class="flex items-center mb-[2px]">
           <span>Метки:</span>
-          <div class="w-[24px] h-[24px]">
-            <img src="./../assets/question-icon.svg" alt="" />
+          <div class="cursor-pointer relative flex">
+            <img
+              src="./../assets/question-icon.svg"
+              class="h-[24px] w-[24px]"
+              alt=""
+            />
+            <span class="ml-2 text-xs text-center">
+              *Для указания нескольких меток используйте разделитель ";"
+            </span>
           </div>
         </div>
         <input
