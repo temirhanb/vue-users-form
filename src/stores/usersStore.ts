@@ -50,8 +50,13 @@ export const useUsersStore = defineStore("users", {
     getUsersList: (state) => state.usersList,
   },
   actions: {
-    increment() {
-      this.count++;
+    deleteUser(payload: number) {
+      this.usersList = this.usersList.filter((item) => item.id !== payload);
+      console.log("payload", payload);
+    },
+
+    addUser(payload: TUser) {
+      this.usersList.push(payload);
     },
   },
 });

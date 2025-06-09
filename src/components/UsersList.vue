@@ -1,14 +1,19 @@
 <script setup lang="ts">
 import { useUsersStore, type TUser } from "@/stores/usersStore";
 
-const { usersList } = useUsersStore();
+const store = useUsersStore();
+
+const handlerDeleteUser = (item: TUser) => {
+  store.deleteUser(item.id);
+};
+
 </script>
 
 <template>
   <div class="grid grid-cols-1 justify-center mt-6 mx-10 items-center">
     <div
       class="border-2 flex flex-col my-2 rounded border-blue-200 shadow-md"
-      v-for="user in usersList"
+      v-for="user in store.usersList"
       :key="`${user.id}`"
     >
       <div class="m-2 flex flex-col shadow">
@@ -48,7 +53,10 @@ const { usersList } = useUsersStore();
           :value="user.password"
         />
       </div>
-      <button class="border-2 mx-2 mb-2 p-4 border-red-400 rounded">
+      <button
+        @click="handlerDeleteUser(user)"
+        class="border-2 mx-2 mb-2 p-4 border-red-400 rounded"
+      >
         <span>Удалить учетную запись</span>
       </button>
     </div>
