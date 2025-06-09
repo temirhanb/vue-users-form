@@ -5,14 +5,9 @@ export type TUser = {
   mark: Array<{ text: string }>;
   type: string;
   login: string;
-  password: string;
+  password?: string;
 };
-export type TNewUser = {
-  mark: string;
-  type: string;
-  login: string;
-  password: string;
-};
+
 interface IState {
   usersList: TUser[];
 }
@@ -60,17 +55,23 @@ export const useUsersStore = defineStore("users", {
       console.log("payload", payload);
     },
 
-    addUser(payload: TNewUser) {
+    addUser() {
       const id = new Date();
       const newUser: TUser = {
         id: Number(id),
-        mark: payload.mark.split(";").map((item) => ({ text: item })),
-        type: payload.type,
-        password: payload.password,
-        login: payload.login,
+        mark: [{ text: "" }],
+        type: "Local",
+        password: "",
+        login: "",
       };
       console.log("newUser", newUser);
       this.usersList.push(newUser);
+    },
+    editUser(payload: TUser) {
+      const updatedIdx = this.usersList.findIndex(
+        ({ id }) => id === payload.id
+      );
+      this.usersList[updatedIdx] = payload;
     },
   },
 });

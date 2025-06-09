@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useUsersStore, type TNewUser } from "@/stores/usersStore";
-import { reactive, ref, watch, type Ref } from "vue";
+import { reactive, ref, watch, type Ref, watchEffect } from "vue";
 
 type TErrors = {
   markError: string;
@@ -12,7 +12,7 @@ const store = useUsersStore();
 const showForm: Ref<boolean> = ref(false);
 
 const handlerShowForm = () => {
-  showForm.value = !showForm.value;
+  store.addUser()
 };
 const newUser: TNewUser = reactive({
   mark: "",
@@ -27,7 +27,7 @@ const errors: Ref<TErrors> = ref({
   passwordError: "Пароль обязательное поле к заполнению",
 });
 
-watch(newUser, () => {
+watchEffect( () => {
   newUser.mark.length > 50
     ? (errors.value.markError = "Максимальная длина 50 символов")
     : (errors.value.markError = "");
@@ -86,7 +86,6 @@ console.log("newUser", newUser);
       <div class="ml-2 mr-2 mb-2 flex flex-col">
         <span class="mb-[2px]">Логин:</span>
         <input
-          maxlength="120"
           :class="{ 'border-red-500': errors.loginError !== '' }"
           v-model="newUser.login"
           class="border-[1px] outline-none pl-2 rounded border-blue-200"
@@ -98,7 +97,6 @@ console.log("newUser", newUser);
       <div v-if="newUser.type !== 'ldap'" class="ml-2 mr-2 mb-2 flex flex-col">
         <span class="mb-[2px]">Пароль:</span>
         <input
-          maxlength="120"
           :class="{ 'border-red-500': errors.passwordError !== '' }"
           v-model="newUser.password"
           class="border-[1px] outline-none pl-2 rounded border-blue-200"
@@ -109,7 +107,6 @@ console.log("newUser", newUser);
       </div>
     </div>
     <button
-      v-if="!showForm"
       @click="handlerShowForm"
       class="border-2 p-4 border-emerald-400 w-[100%] rounded"
     >
