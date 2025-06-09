@@ -14,45 +14,17 @@ interface IState {
 export const useUsersStore = defineStore("users", {
   state: (): IState => {
     return {
-      usersList: [
-        {
-          id: 1,
-          mark: [{ text: "James" }, { text: "Jons" }],
-          type: "Local",
-          login: "dan",
-          password: "1234",
-        },
-        {
-          id: 2,
-          mark: [{ text: "James" }, { text: "Jons" }],
-          type: "Local",
-          login: "dan",
-          password: "1234",
-        },
-        {
-          id: 3,
-          mark: [{ text: "James" }, { text: "Jons" }],
-          type: "Local",
-          login: "dan",
-          password: "1234",
-        },
-        {
-          id: 4,
-          mark: [{ text: "James" }, { text: "Jons" }],
-          type: "Local",
-          login: "dan",
-          password: "1234",
-        },
-      ],
+      usersList: [],
     };
   },
-  getters: {
-    getUsersList: (state) => state.usersList,
-  },
+  getters: {},
   actions: {
+    getUsersList(state: TUser[]) {
+      console.log(1);
+      this.usersList = state;
+    },
     deleteUser(payload: number) {
       this.usersList = this.usersList.filter((item) => item.id !== payload);
-      console.log("payload", payload);
     },
 
     addUser() {
@@ -64,7 +36,6 @@ export const useUsersStore = defineStore("users", {
         password: "",
         login: "",
       };
-      console.log("newUser", newUser);
       this.usersList.push(newUser);
     },
     editUser(payload: TUser) {

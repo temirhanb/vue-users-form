@@ -1,12 +1,20 @@
 <script setup lang="ts">
 import { useUsersStore, type TUser } from "@/stores/usersStore";
-import { ref } from "vue";
+import { ref, watch, watchEffect } from "vue";
 
 const store = useUsersStore();
 
-const markInput = ref("");
+watch(store, () => {
+  localStorage.setItem("users", JSON.stringify(store.usersList));
+});
 
-console.log("markInput", markInput);
+watchEffect(() => {
+  const storeUsers: string = localStorage.getItem("users") as "";
+  if (storeUsers === "") return;
+  const parseUsers = JSON.parse(storeUsers);
+  store.getUsersList(parseUsers);
+});
+
 const handlerDeleteUser = (item: TUser) => {
   store.deleteUser(item.id);
 };
@@ -24,7 +32,6 @@ const handlerTest = (item: TUser, text: string, input: string) => {
       return store.editUser(newUser);
     }
     case "type": {
-      console.log(123);
       const newUser: TUser = {
         id: item.id,
         mark: item.mark,
@@ -60,6 +67,12 @@ const handlerTest = (item: TUser, text: string, input: string) => {
 
 <template>
   <div class="grid grid-cols-1 justify-center mt-6 mx-10 items-center">
+    <h1
+      v-if="store.usersList.length < 1"
+      class="text-sky-700 font-bold text-center text-2xl mb-10"
+    >
+      Добавьте новую учетную запись
+    </h1>
     <div
       class="border-2 flex flex-col my-2 rounded border-blue-200 shadow-md"
       v-for="user in store.usersList"
