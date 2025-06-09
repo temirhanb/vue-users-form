@@ -1,9 +1,14 @@
-import { ref, computed } from "vue";
 import { defineStore } from "pinia";
 
 export type TUser = {
   id: number;
   mark: Array<{ text: string }>;
+  type: string;
+  login: string;
+  password: string;
+};
+export type TNewUser = {
+  mark: string;
   type: string;
   login: string;
   password: string;
@@ -55,8 +60,17 @@ export const useUsersStore = defineStore("users", {
       console.log("payload", payload);
     },
 
-    addUser(payload: TUser) {
-      this.usersList.push(payload);
+    addUser(payload: TNewUser) {
+      const id = new Date();
+      const newUser: TUser = {
+        id: Number(id),
+        mark: payload.mark.split(";").map((item) => ({ text: item })),
+        type: payload.type,
+        password: payload.password,
+        login: payload.login,
+      };
+      console.log("newUser", newUser);
+      this.usersList.push(newUser);
     },
   },
 });

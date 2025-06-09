@@ -6,7 +6,6 @@ const store = useUsersStore();
 const handlerDeleteUser = (item: TUser) => {
   store.deleteUser(item.id);
 };
-
 </script>
 
 <template>
@@ -48,6 +47,7 @@ const handlerDeleteUser = (item: TUser) => {
       <div class="mx-2 mb-2 flex flex-col">
         <span class="mb-[2px]">Пароль:</span>
         <input
+          type="password"
           class="border-[1px] outline-none pl-2 rounded border-blue-200"
           disabled
           :value="user.password"
@@ -55,9 +55,9 @@ const handlerDeleteUser = (item: TUser) => {
       </div>
       <button
         @click="handlerDeleteUser(user)"
-        class="border-2 mx-2 mb-2 p-4 border-red-400 rounded"
+        class="border-2 mx-2 hover:cursor-pointer mb-2 p-4 border-red-400 rounded"
       >
-        <span>Удалить учетную запись</span>
+        <span class="text-red-500">Удалить учетную запись</span>
       </button>
     </div>
   </div>
