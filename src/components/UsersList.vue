@@ -73,7 +73,10 @@ const handlerTest = (item: TUser, text: string, input: string) => {
           </div>
         </div>
         <input
-          @input="(event) => handlerTest(user, event.target.value, 'mark')"
+          @input="(event:any) => handlerTest(user, event.target.value, 'mark')"
+          :class="{
+            'border-red-500': user.mark.length > 50,
+          }"
           class="border-[1px] outline-none pl-2 rounded border-blue-200"
           :value="user.mark.map(({ text }) => text).join(';')"
         />
@@ -82,7 +85,7 @@ const handlerTest = (item: TUser, text: string, input: string) => {
         <span class="mb-[2px]">Тип записи:</span>
         <select
           v-model="user.type"
-          @input="(event) => handlerTest(user, event.target.value, 'type')"
+          @input="(event:any) => handlerTest(user, event.target.value, 'type')"
           class="border-[1px] outline-none pl-2 rounded border-blue-200"
         >
           <option value="Local">Локальная</option>
@@ -92,18 +95,24 @@ const handlerTest = (item: TUser, text: string, input: string) => {
       <div class="mx-2 mb-2 flex flex-col">
         <span class="mb-[2px]">Логин:</span>
         <input
+          :class="{
+            'border-red-500': user.login === '' || user.login.length > 100,
+          }"
           class="border-[1px] outline-none pl-2 rounded border-blue-200"
-          @input="(event) => handlerTest(user, event.target.value, 'login')"
+          @input="(event:any) => handlerTest(user, event.target.value, 'login')"
           :value="user.login"
         />
       </div>
-      <div v-if="user.type !== 'ldap'" class="mx-2 mb-2 flex flex-col">
+      <div v-if="user.type !== 'LDAP'" class="mx-2 mb-2 flex flex-col">
         <span class="mb-[2px]">Пароль:</span>
         <input
           type="password"
+          :class="{
+            'border-red-500':
+              user.password === '' || user.password.length > 100,
+          }"
           class="border-[1px] outline-none pl-2 rounded border-blue-200"
-          @input="(event) => handlerTest(user, event.target.value, 'password')"
-
+          @input="(event:any) => handlerTest(user, event.target.value, 'password')"
           :value="user.password"
         />
       </div>

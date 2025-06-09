@@ -5,7 +5,7 @@ export type TUser = {
   mark: Array<{ text: string }>;
   type: string;
   login: string;
-  password?: string;
+  password: string;
 };
 
 interface IState {
